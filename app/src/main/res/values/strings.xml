@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">InstaStyleGallery</string>
+    <string name="main">main</string>
+    <string name="gallery">Gallery</string>
+    <string name="like">Like</string>
+    <string name="favorite">Favorite</string>
 </resources>
