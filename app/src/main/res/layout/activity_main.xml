@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="viewmodel"
+            type="com.tak8997.instastylegallery.ui.MainViewModel" />
     </data>
 
     <LinearLayout

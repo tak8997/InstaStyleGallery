@@ -1,6 +1,7 @@
-package com.tak8997.instastylegallery.di
+package com.tak8997.instastylegallery.di.uimodule
 
 import androidx.lifecycle.ViewModel
+import com.tak8997.instastylegallery.di.ViewModelKey
 import com.tak8997.instastylegallery.ui.gallery.GalleryViewModel
 import dagger.Binds
 import dagger.Module
