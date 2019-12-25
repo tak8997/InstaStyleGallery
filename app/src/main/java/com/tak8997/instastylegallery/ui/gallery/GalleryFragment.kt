@@ -1,6 +1,7 @@
 package com.tak8997.instastylegallery.ui.gallery
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,6 +39,7 @@ internal class GalleryFragment : DaggerFragment(), LifecycleOwner {
             false
         ).apply {
             lifecycleOwner = this@GalleryFragment.viewLifecycleOwner
+            viewmodel = viewModel
         }
 
         return binding.root
@@ -50,8 +52,14 @@ internal class GalleryFragment : DaggerFragment(), LifecycleOwner {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.fetchGalleryItems(LoaderManager.getInstance(this))
+        Log.d("MY_LOG", "onActivityCreated")
         viewModel.run {
+            permissionChecked.observe(requireActivity(), Observer {
+                Log.d("MY_LOG", "check : ${it}")
+                if (it == true) {
+                    viewModel.fetchGalleryItems(LoaderManager.getInstance(this@GalleryFragment))
+                }
+            })
             galleryItems.observe(this@GalleryFragment.viewLifecycleOwner, Observer {
                 galleryAdapter.submitList(it)
             })

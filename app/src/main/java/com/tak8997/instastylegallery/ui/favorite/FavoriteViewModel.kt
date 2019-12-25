@@ -1,10 +1,10 @@
 package com.tak8997.instastylegallery.ui.favorite
 
-import androidx.lifecycle.ViewModel
+import com.tak8997.instastylegallery.ui.MainViewModel
 import javax.inject.Inject
 
 internal class FavoriteViewModel @Inject constructor(
 
-) : ViewModel() {
+) : MainViewModel() {
 
 }

@@ -10,11 +10,11 @@ import com.tak8997.instastylegallery.R
 import com.tak8997.instastylegallery.data.GalleryItem
 import com.tak8997.instastylegallery.databinding.ItemGalleryBinding
 
-internal class GalleryItemAdapter : ListAdapter<GalleryItem, GalleryItemAdapter.GalleryItemViewHolder>(sDiffUtil) {
+internal class GalleryItemAdapter : ListAdapter<GalleryItem, GalleryItemAdapter.GalleryItemViewHolder>(diffUtil) {
 
     companion object {
 
-        private val sDiffUtil = object : DiffUtil.ItemCallback<GalleryItem>() {
+        private val diffUtil = object : DiffUtil.ItemCallback<GalleryItem>() {
             override fun areItemsTheSame(oldItem: GalleryItem, newItem: GalleryItem): Boolean {
                 return oldItem == newItem
             }
@@ -28,9 +28,6 @@ internal class GalleryItemAdapter : ListAdapter<GalleryItem, GalleryItemAdapter.
         }
     }
 
-
-    private val galleryItems = mutableListOf<GalleryItem>()
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GalleryItemViewHolder {
         val binding = DataBindingUtil.inflate<ItemGalleryBinding>(
             LayoutInflater.from(parent.context),
@@ -42,12 +39,8 @@ internal class GalleryItemAdapter : ListAdapter<GalleryItem, GalleryItemAdapter.
         return GalleryItemViewHolder(binding)
     }
 
-    override fun getItemCount(): Int {
-        return galleryItems.size
-    }
-
     override fun onBindViewHolder(holder: GalleryItemViewHolder, position: Int) {
-        holder.bind(galleryItems[position])
+        holder.bind(getItem(position))
     }
 
     class GalleryItemViewHolder(private val binding: ItemGalleryBinding): RecyclerView.ViewHolder(binding.root) {

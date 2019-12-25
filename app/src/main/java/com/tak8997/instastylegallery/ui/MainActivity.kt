@@ -2,6 +2,7 @@ package com.tak8997.instastylegallery.ui
 
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -33,11 +34,18 @@ internal class MainActivity : DaggerAppCompatActivity() {
             lifecycleOwner = this@MainActivity
             viewmodel = viewModel
         }
+
+        setupBottomNav()
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         requestPermissions()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("MY_LOG", "onDestroy")
     }
 
     override fun onRequestPermissionsResult(
@@ -47,7 +55,8 @@ internal class MainActivity : DaggerAppCompatActivity() {
     ) {
         when(requestCode) {
             REQUEST_PERMISSION_READ_EXTERNAL_STORAGE -> {
-                setupBottomNav()
+                Log.d("MY_LOG", "2")
+                viewModel.setPermissions(true)
             }
         }
 
@@ -56,19 +65,23 @@ internal class MainActivity : DaggerAppCompatActivity() {
 
     private fun requestPermissions() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
-            == PackageManager.PERMISSION_GRANTED) {
+            != PackageManager.PERMISSION_GRANTED) {
 
-            if (viewModel.permissionChecked.value == false) {
-                setupBottomNav()
-            }
+//            if (viewModel.permissionChecked.value == false) {
+//                Log.d("MY_LOG", "123")
+//                setupBottomNav()
+//            }
+            Log.d("MY_LOG", "requestPermissions")
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                REQUEST_PERMISSION_READ_EXTERNAL_STORAGE
+            )
             return
+        } else {
+            Log.d("MY_LOG", "1")
+            viewModel.setPermissions(true)
         }
-
-        ActivityCompat.requestPermissions(
-            this,
-            arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
-            REQUEST_PERMISSION_READ_EXTERNAL_STORAGE
-        )
     }
 
     private fun setupBottomNav() {
@@ -78,7 +91,5 @@ internal class MainActivity : DaggerAppCompatActivity() {
         val navController = host.navController
 
         binding.bottomNav.setupWithNavController(navController)
-
-        viewModel.permissionChecked(true)
     }
 }

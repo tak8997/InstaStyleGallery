@@ -4,13 +4,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import javax.inject.Inject
 
-internal class MainViewModel @Inject constructor(
+internal open class MainViewModel @Inject constructor(
 
 ): ViewModel() {
 
     val permissionChecked = MutableLiveData<Boolean>(false)
 
-    fun permissionChecked(permissionChecked: Boolean) {
-        this.permissionChecked.value = permissionChecked
+    fun setPermissions(checked: Boolean) {
+        permissionChecked.value = checked
     }
 }
