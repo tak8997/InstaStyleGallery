@@ -16,7 +16,8 @@ internal class MainViewModel @Inject constructor(sharedViewModelDelegate: Shared
                         setPermissions(false)
                     }
                 }
-                
+
         }
     }
+    
 }
