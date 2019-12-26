@@ -12,11 +12,10 @@ import javax.inject.Singleton
 @Component(modules = [
     AndroidSupportInjectionModule::class,
     AppModule::class,
-    UiBindingModule::class
+    UiBindingModule::class,
+    SharedViewModelDelegateModule::class
 ])
 internal interface AppComponent : AndroidInjector<GalleryApp> {
-
-
 
     @Component.Factory
     interface Factory {

@@ -1,15 +1,13 @@
 package com.tak8997.instastylegallery.ui
 
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.tak8997.instastylegallery.PermissionsManager
 import com.tak8997.instastylegallery.R
 import com.tak8997.instastylegallery.databinding.ActivityMainBinding
 import dagger.android.support.DaggerAppCompatActivity
@@ -18,7 +16,7 @@ import javax.inject.Inject
 internal class MainActivity : DaggerAppCompatActivity() {
 
     companion object {
-        private const val REQUEST_PERMISSION_READ_EXTERNAL_STORAGE = 1000
+        const val REQUEST_PERMISSION_READ_EXTERNAL_STORAGE = 1000
     }
 
     @Inject
@@ -43,43 +41,19 @@ internal class MainActivity : DaggerAppCompatActivity() {
         requestPermissions()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("MY_LOG", "onDestroy")
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        when(requestCode) {
-            REQUEST_PERMISSION_READ_EXTERNAL_STORAGE -> {
-                Log.d("MY_LOG", "2")
-                viewModel.setPermissions(true)
-            }
-        }
-
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        viewModel.onRequestPermissionResult(requestCode, permissions, grantResults)
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     private fun requestPermissions() {
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED) {
-
-//            if (viewModel.permissionChecked.value == false) {
-//                Log.d("MY_LOG", "123")
-//                setupBottomNav()
-//            }
-            Log.d("MY_LOG", "requestPermissions")
+        if (PermissionsManager.checkPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
                 REQUEST_PERMISSION_READ_EXTERNAL_STORAGE
             )
-            return
         } else {
-            Log.d("MY_LOG", "1")
             viewModel.setPermissions(true)
         }
     }

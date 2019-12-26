@@ -52,15 +52,14 @@ internal class GalleryFragment : DaggerFragment(), LifecycleOwner {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Log.d("MY_LOG", "onActivityCreated")
         viewModel.run {
-            permissionChecked.observe(requireActivity(), Observer {
+            permissionChecked.observe(viewLifecycleOwner, Observer {
                 Log.d("MY_LOG", "check : ${it}")
                 if (it == true) {
                     viewModel.fetchGalleryItems(LoaderManager.getInstance(this@GalleryFragment))
                 }
             })
-            galleryItems.observe(this@GalleryFragment.viewLifecycleOwner, Observer {
+            galleryItems.observe(viewLifecycleOwner, Observer {
                 galleryAdapter.submitList(it)
             })
         }
