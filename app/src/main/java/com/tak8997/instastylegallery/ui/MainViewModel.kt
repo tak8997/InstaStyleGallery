@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import javax.inject.Inject
 
 internal class MainViewModel @Inject constructor(sharedViewModelDelegate: SharedViewModelDelegate
-): ViewModel(),SharedViewModelDelegate by sharedViewModelDelegate{
+):ViewModel(),SharedViewModelDelegate by sharedViewModelDelegate{
 
     fun onRequestPermissionResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when(requestCode) {
