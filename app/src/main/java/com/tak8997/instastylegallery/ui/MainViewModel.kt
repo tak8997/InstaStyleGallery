@@ -8,14 +8,14 @@ internal class MainViewModel @Inject constructor(sharedViewModelDelegate: Shared
 ):ViewModel(),SharedViewModelDelegate by sharedViewModelDelegate   {
 
     fun onRequestPermissionResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        when(requestCode) {
-            MainActivity.REQUEST_PERMISSION_READ_EXTERNAL_STORAGE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    setPermissions(true)
-                } else {
-                    setPermissions(false)
+            when(requestCode) {
+                MainActivity.REQUEST_PERMISSION_READ_EXTERNAL_STORAGE -> {
+                    if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        setPermissions(true)
+                    } else {
+                        setPermissions(false)
+                    }
                 }
-            }
         }
     }
 }
