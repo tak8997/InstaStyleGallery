@@ -5,6 +5,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
+apply from: teamConfig('git/git-hooks.gradle')
 apply from: teamConfig('staticCodeAnalysis/ktlint.gradle')
 apply from: teamConfig('staticCodeAnalysis/detekt.gradle')
 
