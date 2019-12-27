@@ -19,10 +19,7 @@ internal class GalleryItemAdapter : ListAdapter<GalleryItem, GalleryItemAdapter.
                 return oldItem == newItem
             }
 
-            override fun areContentsTheSame(
-                oldItem: GalleryItem,
-                newItem: GalleryItem
-            ): Boolean {
+            override fun areContentsTheSame(oldItem: GalleryItem, newItem: GalleryItem): Boolean {
                 return oldItem.bucketId == newItem.bucketId
             }
         }

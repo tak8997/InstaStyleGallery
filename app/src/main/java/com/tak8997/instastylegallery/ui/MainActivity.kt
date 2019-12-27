@@ -7,7 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.tak8997.instastylegallery.PermissionsManager
+import com.tak8997.instastylegallery.PermissionsUtil
 import com.tak8997.instastylegallery.R
 import com.tak8997.instastylegallery.databinding.ActivityMainBinding
 import dagger.android.support.DaggerAppCompatActivity
@@ -47,14 +47,14 @@ internal class MainActivity : DaggerAppCompatActivity() {
     }
 
     private fun requestPermissions() {
-        if (PermissionsManager.checkPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
+        if (PermissionsUtil.isPermissionGranted(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            viewModel.setPermissions(true)
+        } else {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
                 REQUEST_PERMISSION_READ_EXTERNAL_STORAGE
             )
-        } else {
-            viewModel.setPermissions(true)
         }
     }
 

@@ -54,7 +54,6 @@ internal abstract class GalleryLoaderCallbacks : LoaderManager.LoaderCallbacks<C
     }
 
     override fun onLoaderReset(loader: Loader<Cursor>) {
-
     }
 
     abstract fun onGalleryItemsLoaded(galleryItems: List<GalleryItem>)

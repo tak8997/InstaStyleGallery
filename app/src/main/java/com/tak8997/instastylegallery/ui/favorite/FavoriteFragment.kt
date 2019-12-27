@@ -14,6 +14,12 @@ import javax.inject.Inject
 
 internal class FavoriteFragment : DaggerFragment() {
 
+    companion object {
+        const val TAG = "FavoriteFragment"
+
+        fun newInstance() = FavoriteFragment()
+    }
+
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 

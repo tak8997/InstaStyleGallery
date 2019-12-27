@@ -6,7 +6,6 @@ import androidx.loader.app.LoaderManager
 import com.tak8997.instastylegallery.data.GalleryItem
 import com.tak8997.instastylegallery.data.GalleryLoaderCallbacks
 import com.tak8997.instastylegallery.data.repository.GalleryRepository
-import com.tak8997.instastylegallery.ui.MainViewModel
 import com.tak8997.instastylegallery.ui.SharedViewModelDelegate
 import javax.inject.Inject
 
@@ -18,15 +17,15 @@ internal class GalleryViewModel @Inject constructor(
     val galleryItems = MutableLiveData<List<GalleryItem>>()
 
     fun fetchGalleryItems(loaderManager: LoaderManager) {
-        if (permissionChecked.value == false) {
-            return
-        }
+        repository.fetchGalleryItems(
+            loaderManager,
+            permissionChecked.value,
+            galleryItems.value,
+            object : GalleryLoaderCallbacks() {
 
-        repository.fetchGalleryItems(loaderManager, object : GalleryLoaderCallbacks() {
-
-            override fun onGalleryItemsLoaded(galleryItems: List<GalleryItem>) {
-                this@GalleryViewModel.galleryItems.value = galleryItems
-            }
-        })
+                override fun onGalleryItemsLoaded(galleryItems: List<GalleryItem>) {
+                    this@GalleryViewModel.galleryItems.value = galleryItems
+                }
+            })
     }
 }

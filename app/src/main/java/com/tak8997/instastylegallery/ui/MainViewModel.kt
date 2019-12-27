@@ -19,7 +19,7 @@ internal class MainViewModel @Inject constructor(sharedViewModelDelegate: Shared
 
         }
     }
-    
+
 
 
 }

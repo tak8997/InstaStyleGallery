@@ -9,9 +9,7 @@ internal interface SharedViewModelDelegate {
 
     fun setPermissions(checked: Boolean)
 
-    class ViewModel @Inject constructor(
-
-    ): SharedViewModelDelegate {
+    class ViewModel @Inject constructor(): SharedViewModelDelegate {
 
         override val permissionChecked = MutableLiveData<Boolean>(false)
 
