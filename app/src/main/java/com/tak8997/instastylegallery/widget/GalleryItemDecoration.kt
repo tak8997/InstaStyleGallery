@@ -1,13 +1,10 @@
 package com.tak8997.instastylegallery.widget
 
 import android.graphics.Rect
-import android.util.Log
 import android.view.View
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tak8997.instastylegallery.util.toPx
-import androidx.recyclerview.widget.GridLayoutManager
-
-
 
 internal class GalleryItemDecoration : RecyclerView.ItemDecoration() {
 
@@ -39,10 +36,7 @@ internal class GalleryItemDecoration : RecyclerView.ItemDecoration() {
                 outRect.right = 10.toPx
             }
             2 -> {
-
             }
         }
     }
-
-
 }

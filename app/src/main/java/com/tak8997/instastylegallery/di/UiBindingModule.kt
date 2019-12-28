@@ -9,7 +9,6 @@ import com.tak8997.instastylegallery.ui.gallery.GalleryFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
-
 @Module(includes = [UiBindingModule.FragmentModule::class])
 internal interface UiBindingModule {
 

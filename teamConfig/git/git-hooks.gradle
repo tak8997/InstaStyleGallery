@@ -1,3 +1,4 @@
+
 static def isLinuxOrMacOs() {
     def osName = System.getProperty('os.name').toLowerCase(Locale.ROOT)
     return osName.contains('linux') || osName.contains('mac os') || osName.contains('macos')
@@ -23,3 +24,5 @@ task installGitHooks(type: Exec) {
     onlyIf { isLinuxOrMacOs() }
     doLast { logger.info('Git hook installed successfully.') }
 }
+
+tasks.getByPath(':app:preBuild').dependsOn installGitHooks

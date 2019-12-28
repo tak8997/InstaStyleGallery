@@ -5,7 +5,7 @@ echo "Running static analysis..."
 export PATH=/usr/local/bin:$PATH
 
 # Validate Kotlin code with detekt and KtLint before committing
-./gradlew ktlint ktlintFormat detekt
+./gradlew ktlint ktlintFormat
 
 status=$?
 

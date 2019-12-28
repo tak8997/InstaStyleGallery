@@ -40,7 +40,7 @@ internal class GalleryItemAdapter : ListAdapter<GalleryItem, GalleryItemAdapter.
         holder.bind(getItem(position))
     }
 
-    class GalleryItemViewHolder(private val binding: ItemGalleryBinding): RecyclerView.ViewHolder(binding.root) {
+    class GalleryItemViewHolder(private val binding: ItemGalleryBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(galleryItem: GalleryItem) {
             binding.galleryItem = galleryItem

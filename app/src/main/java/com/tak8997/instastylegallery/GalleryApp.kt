@@ -6,8 +6,6 @@ import com.tak8997.instastylegallery.di.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import leakcanary.AppWatcher
-import leakcanary.LeakCanary
 import javax.inject.Inject
 
 internal class GalleryApp : Application(), HasAndroidInjector {
@@ -51,5 +49,4 @@ internal class GalleryApp : Application(), HasAndroidInjector {
             .create(this)
             .inject(this)
     }
-
 }
