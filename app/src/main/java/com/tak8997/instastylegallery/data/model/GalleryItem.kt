@@ -1,4 +1,4 @@
-package com.tak8997.instastylegallery.data
+package com.tak8997.instastylegallery.data.model
 
 data class GalleryItem(
     val imageName: String,

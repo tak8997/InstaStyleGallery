@@ -6,7 +6,7 @@
 
         <variable
             name="galleryItem"
-            type="com.tak8997.instastylegallery.data.GalleryItem" />
+            type="com.tak8997.instastylegallery.data.model.GalleryItem" />
     </data>
 
     <ImageView

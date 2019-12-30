@@ -1,21 +1,33 @@
 package com.tak8997.instastylegallery.data.repository
 
-import androidx.loader.app.LoaderManager
-import com.tak8997.instastylegallery.data.GalleryItem
-import com.tak8997.instastylegallery.data.GalleryLoaderCallbacks
+import android.content.ContentResolver
+import androidx.lifecycle.MutableLiveData
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import com.tak8997.instastylegallery.data.model.GalleryItem
+import com.tak8997.instastylegallery.data.model.GalleryListing
 import javax.inject.Inject
 
-internal class GalleryDataRepository @Inject constructor() : GalleryRepository {
+internal class GalleryDataRepository @Inject constructor(
+    private val contentResolver: ContentResolver
+) : GalleryRepository {
 
-    override fun fetchGalleryItems(loaderManager: LoaderManager, permissionChecked: Boolean?, galleryItems: List<GalleryItem>?, callbacks: GalleryLoaderCallbacks) {
+    override fun fetchGalleryItems(permissionChecked: Boolean?, galleryItems: List<GalleryItem>?): GalleryListing<GalleryItem> {
         if (permissionChecked == null || permissionChecked == false) {
-            return
+            return GalleryListing(MutableLiveData())
         }
 
-        if (galleryItems.isNullOrEmpty()) {
-            loaderManager.initLoader(GalleryLoaderCallbacks.ID_LOAD_GALLERY, null, callbacks)
-        } else {
-            loaderManager.restartLoader(GalleryLoaderCallbacks.ID_LOAD_GALLERY, null, callbacks)
-        }
+        val dataSourceFactory = GalleryDataSourceFactory(contentResolver)
+
+        val config = PagedList.Config.Builder()
+            .setPageSize(30)
+            .setInitialLoadSizeHint(30)
+            .setPrefetchDistance(10)
+            .setEnablePlaceholders(false)
+            .build()
+
+        return GalleryListing(
+            pages = LivePagedListBuilder(dataSourceFactory, config).build()
+        )
     }
 }

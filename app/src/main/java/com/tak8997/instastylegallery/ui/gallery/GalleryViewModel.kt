@@ -1,10 +1,10 @@
 package com.tak8997.instastylegallery.ui.gallery
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import androidx.loader.app.LoaderManager
-import com.tak8997.instastylegallery.data.GalleryItem
-import com.tak8997.instastylegallery.data.GalleryLoaderCallbacks
+import com.tak8997.instastylegallery.data.model.GalleryItem
+import com.tak8997.instastylegallery.data.model.GalleryListing
 import com.tak8997.instastylegallery.data.repository.GalleryRepository
 import com.tak8997.instastylegallery.ui.SharedViewModelDelegate
 import javax.inject.Inject
@@ -14,18 +14,13 @@ internal class GalleryViewModel @Inject constructor(
     sharedViewModelDelegate: SharedViewModelDelegate
 ) : ViewModel(), SharedViewModelDelegate by sharedViewModelDelegate {
 
-    val galleryItems = MutableLiveData<List<GalleryItem>>()
+    private val pageResult = MutableLiveData<GalleryListing<GalleryItem>>()
 
-    fun fetchGalleryItems(loaderManager: LoaderManager) {
-        repository.fetchGalleryItems(
-            loaderManager,
-            permissionChecked.value,
-            galleryItems.value,
-            object : GalleryLoaderCallbacks() {
+    val galleryItems = Transformations.switchMap(pageResult) {
+        it.pages
+    }
 
-                override fun onGalleryItemsLoaded(galleryItems: List<GalleryItem>) {
-                    this@GalleryViewModel.galleryItems.value = galleryItems
-                }
-            })
+    fun fetchGalleryItems() {
+        pageResult.value = repository.fetchGalleryItems(permissionChecked.value, galleryItems.value)
     }
 }

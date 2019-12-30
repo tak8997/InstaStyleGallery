@@ -1,10 +1,9 @@
 package com.tak8997.instastylegallery.data.repository
 
-import androidx.loader.app.LoaderManager
-import com.tak8997.instastylegallery.data.GalleryItem
-import com.tak8997.instastylegallery.data.GalleryLoaderCallbacks
+import com.tak8997.instastylegallery.data.model.GalleryItem
+import com.tak8997.instastylegallery.data.model.GalleryListing
 
 internal interface GalleryRepository {
 
-    fun fetchGalleryItems(loaderManager: LoaderManager, permissionChecked: Boolean?, galleryItems: List<GalleryItem>?, callbacks: GalleryLoaderCallbacks)
+    fun fetchGalleryItems(permissionChecked: Boolean?, galleryItems: List<GalleryItem>?): GalleryListing<GalleryItem>
 }

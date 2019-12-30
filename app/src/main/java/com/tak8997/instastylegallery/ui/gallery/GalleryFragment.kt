@@ -9,7 +9,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.loader.app.LoaderManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.tak8997.instastylegallery.R
 import com.tak8997.instastylegallery.databinding.FragmentGalleryBinding
@@ -33,7 +32,11 @@ internal class GalleryFragment : DaggerFragment(), LifecycleOwner {
     private val viewModel by viewModels<GalleryViewModel> { viewModelFactory }
     private val galleryAdapter by lazy { GalleryItemAdapter() }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = DataBindingUtil.inflate<FragmentGalleryBinding>(
             inflater,
             R.layout.fragment_gallery,
@@ -57,13 +60,11 @@ internal class GalleryFragment : DaggerFragment(), LifecycleOwner {
         viewModel.run {
             permissionChecked.observe(viewLifecycleOwner, Observer {
                 if (it == true) {
-                    viewModel.fetchGalleryItems(LoaderManager.getInstance(requireActivity()))
+                    viewModel.fetchGalleryItems()
                 }
             })
             galleryItems.observe(viewLifecycleOwner, Observer {
-                if (it.isNotEmpty()) {
-                    galleryAdapter.submitList(it)
-                }
+                galleryAdapter.submitList(it)
             })
         }
     }

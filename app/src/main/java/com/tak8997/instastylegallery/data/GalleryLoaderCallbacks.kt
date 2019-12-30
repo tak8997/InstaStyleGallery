@@ -7,6 +7,7 @@ import androidx.loader.app.LoaderManager
 import androidx.loader.content.CursorLoader
 import androidx.loader.content.Loader
 import com.tak8997.instastylegallery.GalleryApp
+import com.tak8997.instastylegallery.data.model.GalleryItem
 
 internal abstract class GalleryLoaderCallbacks : LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -47,7 +48,14 @@ internal abstract class GalleryLoaderCallbacks : LoaderManager.LoaderCallbacks<C
             val bucketId = data.getString(data.getColumnIndex(projections[2]))
             val imageName = data.getString(data.getColumnIndex(projections[3]))
 
-            galleryItems.add(GalleryItem(imageName, imageBucket, bucketId, imagePath))
+            galleryItems.add(
+                GalleryItem(
+                    imageName,
+                    imageBucket,
+                    bucketId,
+                    imagePath
+                )
+            )
         }
 
         onGalleryItemsLoaded(galleryItems)

@@ -3,14 +3,14 @@ package com.tak8997.instastylegallery.ui.gallery.gallery
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.tak8997.instastylegallery.R
-import com.tak8997.instastylegallery.data.GalleryItem
+import com.tak8997.instastylegallery.data.model.GalleryItem
 import com.tak8997.instastylegallery.databinding.ItemGalleryBinding
 
-internal class GalleryItemAdapter : ListAdapter<GalleryItem, GalleryItemAdapter.GalleryItemViewHolder>(diffUtil) {
+internal class GalleryItemAdapter : PagedListAdapter<GalleryItem, GalleryItemAdapter.GalleryItemViewHolder>(diffUtil) {
 
     companion object {
 
@@ -42,7 +42,7 @@ internal class GalleryItemAdapter : ListAdapter<GalleryItem, GalleryItemAdapter.
 
     class GalleryItemViewHolder(private val binding: ItemGalleryBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(galleryItem: GalleryItem) {
+        fun bind(galleryItem: GalleryItem?) {
             binding.galleryItem = galleryItem
         }
     }
