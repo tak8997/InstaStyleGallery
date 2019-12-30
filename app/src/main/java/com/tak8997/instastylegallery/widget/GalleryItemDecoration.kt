@@ -24,8 +24,6 @@ internal class GalleryItemDecoration : RecyclerView.ItemDecoration() {
         val lp = view.layoutParams as? GridLayoutManager.LayoutParams
         val spanIndex = lp?.spanIndex
 
-//        Log.d("MY_LOG", "deco : ${position}, ${itemCount}, ${spanIndex}")
-
         when (spanIndex) {
             0 -> {
                 outRect.left = 10.toPx
@@ -33,9 +31,11 @@ internal class GalleryItemDecoration : RecyclerView.ItemDecoration() {
             }
             1 -> {
                 outRect.left = 5.toPx
-                outRect.right = 10.toPx
+                outRect.right = 5.toPx
             }
             2 -> {
+                outRect.left = 5.toPx
+                outRect.right = 5.toPx
             }
         }
     }

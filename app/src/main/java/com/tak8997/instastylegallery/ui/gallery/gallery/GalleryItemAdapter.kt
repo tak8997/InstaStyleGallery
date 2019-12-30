@@ -6,11 +6,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.tak8997.instastylegallery.GlideRequests
 import com.tak8997.instastylegallery.R
 import com.tak8997.instastylegallery.data.model.GalleryItem
 import com.tak8997.instastylegallery.databinding.ItemGalleryBinding
 
-internal class GalleryItemAdapter : PagedListAdapter<GalleryItem, GalleryItemAdapter.GalleryItemViewHolder>(diffUtil) {
+internal class GalleryItemAdapter(
+    private val glide: GlideRequests
+) : PagedListAdapter<GalleryItem, GalleryItemAdapter.GalleryItemViewHolder>(diffUtil) {
 
     companion object {
 
@@ -33,17 +36,20 @@ internal class GalleryItemAdapter : PagedListAdapter<GalleryItem, GalleryItemAda
             false
         )
 
-        return GalleryItemViewHolder(binding)
+        return GalleryItemViewHolder(binding, glide)
     }
 
     override fun onBindViewHolder(holder: GalleryItemViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    class GalleryItemViewHolder(private val binding: ItemGalleryBinding) : RecyclerView.ViewHolder(binding.root) {
+    class GalleryItemViewHolder(
+        private val binding: ItemGalleryBinding,
+        private val glide: GlideRequests
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(galleryItem: GalleryItem?) {
-            binding.galleryItem = galleryItem
+            binding.imgPhoto.setImageThumbnail(galleryItem, glide)
         }
     }
 }

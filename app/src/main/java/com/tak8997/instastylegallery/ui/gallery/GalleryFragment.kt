@@ -10,6 +10,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.tak8997.instastylegallery.GlideApp
 import com.tak8997.instastylegallery.R
 import com.tak8997.instastylegallery.databinding.FragmentGalleryBinding
 import com.tak8997.instastylegallery.ui.gallery.gallery.GalleryItemAdapter
@@ -30,7 +31,7 @@ internal class GalleryFragment : DaggerFragment(), LifecycleOwner {
 
     private lateinit var binding: FragmentGalleryBinding
     private val viewModel by viewModels<GalleryViewModel> { viewModelFactory }
-    private val galleryAdapter by lazy { GalleryItemAdapter() }
+    private val galleryAdapter by lazy { GalleryItemAdapter(GlideApp.with(this)) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
