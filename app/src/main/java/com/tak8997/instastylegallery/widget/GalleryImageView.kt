@@ -23,7 +23,6 @@ internal class GalleryImageView @JvmOverloads constructor(
         glide.load(galleryItem?.imagePath)
             .centerCrop()
             .placeholder(circularProgressDrawable(context))
-            .thumbnail(0.4f)
             .into(this)
     }
 

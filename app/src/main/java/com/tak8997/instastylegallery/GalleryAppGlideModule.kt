@@ -18,10 +18,10 @@ internal class GalleryAppGlideModule : AppGlideModule() {
         builder.setLogLevel(Log.ERROR)
         builder.setDefaultRequestOptions(RequestOptions().format(DecodeFormat.PREFER_RGB_565))
 
-        val memoryCacheSizeBytes = 1024 * 1024 * 20 // 20mb
+        val memoryCacheSizeBytes = 1024 * 1024 * 20 // 20 MB
         builder.setMemoryCache(LruResourceCache(memoryCacheSizeBytes.toLong()))
 
-        val diskCacheSizeBytes = 1024 * 1024 * 100 // 100 MB
+        val diskCacheSizeBytes = 1024 * 1024 * 50 // 50 MB
         builder.setDiskCache(InternalCacheDiskCacheFactory(context, diskCacheSizeBytes.toLong()))
     }
 }
