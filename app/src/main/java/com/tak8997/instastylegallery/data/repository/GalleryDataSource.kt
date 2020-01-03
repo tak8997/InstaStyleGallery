@@ -1,6 +1,7 @@
 package com.tak8997.instastylegallery.data.repository
 
 import android.content.ContentResolver
+import android.net.Uri
 import android.provider.MediaStore
 import androidx.paging.PositionalDataSource
 import com.tak8997.instastylegallery.data.model.GalleryItem
@@ -15,7 +16,10 @@ internal class GalleryDataSource(
         MediaStore.Images.ImageColumns.DATE_TAKEN,
         MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME,
         MediaStore.Images.ImageColumns.BUCKET_ID,
-        MediaStore.Images.ImageColumns.DISPLAY_NAME
+        MediaStore.Images.ImageColumns.DISPLAY_NAME,
+        MediaStore.Images.ImageColumns.DATE_MODIFIED,
+        MediaStore.Images.ImageColumns.MIME_TYPE,
+        MediaStore.Images.ImageColumns.ORIENTATION
     )
 
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<GalleryItem>) {
@@ -39,19 +43,38 @@ internal class GalleryDataSource(
         cursor?.let {
 
             it.moveToFirst()
+
+            val imageIdColNum = it.getColumnIndex(projections[0])
+            val dateTakenColNum = it.getColumnIndex(projections[1])
+            val bucketColNum = it.getColumnIndex(projections[2])
+            val bucketIdColNum = it.getColumnIndex(projections[3])
+            val imageNameColNum = it.getColumnIndex(projections[4])
+            val dateModifiedColNum = it.getColumnIndexOrThrow(projections[5])
+            val mimeTypeColNum = it.getColumnIndex(projections[6])
+            val orientationColNum = it.getColumnIndexOrThrow(projections[7])
+
             while (!it.isAfterLast) {
-                val imagePath = uri.toString() + "/" + it.getString(0)
-                val imageDate = it.getString(it.getColumnIndex(projections[1]))
-                val imageBucket = it.getString(it.getColumnIndex(projections[2]))
-                val bucketId = it.getString(it.getColumnIndex(projections[3]))
-                val imageName = it.getString(it.getColumnIndex(projections[4]))
+                val imageId = it.getString(imageIdColNum)
+                val imagePath = Uri.withAppendedPath(uri, imageId)
+                val imageDate = it.getString(dateTakenColNum)
+                val imageBucket = it.getString(bucketColNum)
+                val bucketId = it.getString(bucketIdColNum)
+                val imageName = it.getString(imageNameColNum)
+                val dateModified = it.getLong(dateModifiedColNum)
+                val mimeType = it.getString(mimeTypeColNum)
+                val orientation = it.getInt(orientationColNum)
 
                 galleryItems.add(
                     GalleryItem(
+                        imageId,
                         imageName,
                         imageBucket,
+                        imageDate,
                         bucketId,
-                        imagePath
+                        imagePath,
+                        dateModified,
+                        mimeType,
+                        orientation
                     )
                 )
 
