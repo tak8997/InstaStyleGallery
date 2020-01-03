@@ -20,7 +20,13 @@ internal class GalleryViewModel @Inject constructor(
         it.pages
     }
 
+    val galleryDialog = MutableLiveData<GalleryItem>()
+
     fun fetchGalleryItems() {
         pageResult.value = repository.fetchGalleryItems(permissionChecked.value, galleryItems.value)
+    }
+
+    fun onItemLongClick(galleryItem: GalleryItem) {
+        galleryDialog.value = galleryItem
     }
 }

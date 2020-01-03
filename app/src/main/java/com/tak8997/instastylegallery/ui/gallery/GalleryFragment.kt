@@ -1,6 +1,7 @@
 package com.tak8997.instastylegallery.ui.gallery
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.tak8997.instastylegallery.GlideApp
 import com.tak8997.instastylegallery.R
 import com.tak8997.instastylegallery.databinding.FragmentGalleryBinding
 import com.tak8997.instastylegallery.ui.gallery.gallery.GalleryItemAdapter
+import com.tak8997.instastylegallery.util.locationOnScreen
 import com.tak8997.instastylegallery.widget.GalleryItemDecoration
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
@@ -30,8 +32,11 @@ internal class GalleryFragment : DaggerFragment(), LifecycleOwner {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var binding: FragmentGalleryBinding
+
     private val viewModel by viewModels<GalleryViewModel> { viewModelFactory }
-    private val galleryAdapter by lazy { GalleryItemAdapter(GlideApp.with(this)) }
+    private val galleryAdapter by lazy {
+        GalleryItemAdapter(GlideApp.with(this), viewModel::onItemLongClick)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,6 +72,10 @@ internal class GalleryFragment : DaggerFragment(), LifecycleOwner {
             galleryItems.observe(viewLifecycleOwner, Observer {
                 galleryAdapter.submitList(it)
             })
+            galleryDialog.observe(viewLifecycleOwner, Observer {
+
+//                GalleryDialogFragment.newInstance(it).show(childFragmentManager, TAG)
+            })
         }
     }
 
@@ -77,5 +86,7 @@ internal class GalleryFragment : DaggerFragment(), LifecycleOwner {
             addItemDecoration(GalleryItemDecoration())
             setHasFixedSize(true)
         }
+        val point = binding.recyclerGallery.locationOnScreen()
+        Log.d("MY_LOG", "recycler : $point")
     }
 }
