@@ -1,7 +1,6 @@
 package com.tak8997.instastylegallery.ui.gallery
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,6 @@ import com.tak8997.instastylegallery.GlideApp
 import com.tak8997.instastylegallery.R
 import com.tak8997.instastylegallery.databinding.FragmentGalleryBinding
 import com.tak8997.instastylegallery.ui.gallery.gallery.GalleryItemAdapter
-import com.tak8997.instastylegallery.util.locationOnScreen
 import com.tak8997.instastylegallery.widget.GalleryItemDecoration
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
@@ -72,9 +70,14 @@ internal class GalleryFragment : DaggerFragment(), LifecycleOwner {
             galleryItems.observe(viewLifecycleOwner, Observer {
                 galleryAdapter.submitList(it)
             })
-            galleryDialog.observe(viewLifecycleOwner, Observer {
-
-//                GalleryDialogFragment.newInstance(it).show(childFragmentManager, TAG)
+            detailScene.observe(viewLifecycleOwner, Observer { (itemView, transitionName, galleryItem) ->
+                GalleryDetailView.showScene(
+                    requireActivity(),
+                    binding.container,
+                    itemView,
+                    transitionName,
+                    galleryItem
+                )
             })
         }
     }
@@ -86,7 +89,5 @@ internal class GalleryFragment : DaggerFragment(), LifecycleOwner {
             addItemDecoration(GalleryItemDecoration())
             setHasFixedSize(true)
         }
-        val point = binding.recyclerGallery.locationOnScreen()
-        Log.d("MY_LOG", "recycler : $point")
     }
 }

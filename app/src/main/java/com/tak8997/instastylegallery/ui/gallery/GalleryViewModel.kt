@@ -1,5 +1,6 @@
 package com.tak8997.instastylegallery.ui.gallery
 
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
@@ -15,18 +16,19 @@ internal class GalleryViewModel @Inject constructor(
 ) : ViewModel(), SharedViewModelDelegate by sharedViewModelDelegate {
 
     private val pageResult = MutableLiveData<GalleryListing<GalleryItem>>()
+    private val transitionName = MutableLiveData<String>()
+    val detailScene = MutableLiveData<Triple<View, String, GalleryItem?>>()
 
     val galleryItems = Transformations.switchMap(pageResult) {
         it.pages
     }
 
-    val galleryDialog = MutableLiveData<GalleryItem>()
+    fun onItemLongClick(itemView: View, transName: String, galleryItem: GalleryItem?) {
+        transitionName.value = transName
+        detailScene.value = Triple(itemView, transName, galleryItem)
+    }
 
     fun fetchGalleryItems() {
         pageResult.value = repository.fetchGalleryItems(permissionChecked.value, galleryItems.value)
-    }
-
-    fun onItemLongClick(galleryItem: GalleryItem) {
-        galleryDialog.value = galleryItem
     }
 }
