@@ -9,10 +9,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.tak8997.instastylegallery.R
 import com.tak8997.instastylegallery.databinding.FragmentFavoriteBinding
+import com.tak8997.instastylegallery.ui.BaseView
+import com.tak8997.instastylegallery.ui.MainActivity
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-internal class FavoriteFragment : DaggerFragment() {
+internal class FavoriteFragment : DaggerFragment(), BaseView {
 
     companion object {
         const val TAG = "FavoriteFragment"
@@ -39,5 +41,9 @@ internal class FavoriteFragment : DaggerFragment() {
         )
 
         return binding.root
+    }
+
+    override fun onBackPressed() {
+        (requireActivity() as? MainActivity)?.superOnBackPressed()
     }
 }

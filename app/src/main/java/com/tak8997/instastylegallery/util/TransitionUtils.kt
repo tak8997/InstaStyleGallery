@@ -5,8 +5,8 @@ internal class TransitionUtils {
     companion object {
         private const val DEFAULT_TRANSITION_NAME = "transition"
 
-        fun getItemPositionFromTransition(transitionName: String): Int {
-            return transitionName.substring(transitionName.length - 1).toInt()
+        fun getItemPositionFromTransition(transitionName: String?): Int {
+            return transitionName?.substring(transitionName.length - 1)?.toInt() ?: 0
         }
 
         fun getRecyclerViewTransitionName(position: Int): String {

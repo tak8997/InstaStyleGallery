@@ -1,6 +1,7 @@
 package com.tak8997.instastylegallery.ui.gallery
 
 import android.os.Bundle
+import android.transition.Scene
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,12 +14,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.tak8997.instastylegallery.GlideApp
 import com.tak8997.instastylegallery.R
 import com.tak8997.instastylegallery.databinding.FragmentGalleryBinding
+import com.tak8997.instastylegallery.ui.BaseView
+import com.tak8997.instastylegallery.ui.MainActivity
 import com.tak8997.instastylegallery.ui.gallery.gallery.GalleryItemAdapter
+import com.tak8997.instastylegallery.util.TransitionUtils
 import com.tak8997.instastylegallery.widget.GalleryItemDecoration
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-internal class GalleryFragment : DaggerFragment(), LifecycleOwner {
+internal class GalleryFragment : DaggerFragment(), LifecycleOwner, BaseView {
 
     companion object {
         const val TAG = "GalleryFragment"
@@ -35,6 +39,8 @@ internal class GalleryFragment : DaggerFragment(), LifecycleOwner {
     private val galleryAdapter by lazy {
         GalleryItemAdapter(GlideApp.with(this), viewModel::onItemLongClick)
     }
+
+    private var detailScene: Scene? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,7 +77,7 @@ internal class GalleryFragment : DaggerFragment(), LifecycleOwner {
                 galleryAdapter.submitList(it)
             })
             detailScene.observe(viewLifecycleOwner, Observer { (itemView, transitionName, galleryItem) ->
-                GalleryDetailView.showScene(
+                this@GalleryFragment.detailScene = GalleryDetailView.showScene(
                     requireActivity(),
                     binding.container,
                     itemView,
@@ -80,6 +86,33 @@ internal class GalleryFragment : DaggerFragment(), LifecycleOwner {
                 )
             })
         }
+    }
+
+    override fun onBackPressed() {
+        if (detailScene != null) {
+            val currentTransitionName = viewModel.transitionName.value
+            val childPosition = TransitionUtils.getItemPositionFromTransition(currentTransitionName)
+            GalleryDetailView.hideScene(requireActivity(), binding.container, getSharedViewByPosition(childPosition), currentTransitionName)
+            notifyLayoutOnBackPressed()
+            detailScene = null
+        } else {
+            (requireActivity() as? MainActivity)?.superOnBackPressed()
+        }
+    }
+
+    private fun notifyLayoutOnBackPressed() {
+        binding.container.removeAllViews()
+        binding.container.addView(binding.recyclerGallery)
+        binding.recyclerGallery.requestLayout()
+    }
+
+    private fun getSharedViewByPosition(childPosition: Int): View? {
+        for (i in 0 until binding.recyclerGallery.childCount) {
+            if (childPosition == binding.recyclerGallery.getChildAdapterPosition(binding.recyclerGallery.getChildAt(i))) {
+                return binding.recyclerGallery.getChildAt(i)
+            }
+        }
+        return null
     }
 
     private fun setupRecycler() {

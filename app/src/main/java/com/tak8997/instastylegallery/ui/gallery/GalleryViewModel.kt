@@ -16,7 +16,7 @@ internal class GalleryViewModel @Inject constructor(
 ) : ViewModel(), SharedViewModelDelegate by sharedViewModelDelegate {
 
     private val pageResult = MutableLiveData<GalleryListing<GalleryItem>>()
-    private val transitionName = MutableLiveData<String>()
+    val transitionName = MutableLiveData<String>()
     val detailScene = MutableLiveData<Triple<View, String, GalleryItem?>>()
 
     val galleryItems = Transformations.switchMap(pageResult) {

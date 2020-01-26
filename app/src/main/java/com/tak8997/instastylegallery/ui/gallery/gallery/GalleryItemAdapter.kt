@@ -40,9 +40,9 @@ internal class GalleryItemAdapter(
         )
 
         return GalleryItemViewHolder(binding, glide).apply {
-            itemView.setOnLongClickListener { view ->
+            itemView.setOnLongClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
-                    itemCallback.invoke(view, TransitionUtils.getRecyclerViewTransitionName(adapterPosition), getItem(adapterPosition))
+                    itemCallback.invoke(binding.itemRoot, TransitionUtils.getRecyclerViewTransitionName(adapterPosition), getItem(adapterPosition))
                 }
                 return@setOnLongClickListener true
             }

@@ -5,6 +5,7 @@ import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.tak8997.instastylegallery.PermissionsUtil
@@ -17,6 +18,7 @@ internal class MainActivity : DaggerAppCompatActivity() {
 
     companion object {
         const val REQUEST_PERMISSION_READ_EXTERNAL_STORAGE = 1000
+        private const val INDEX_CURRENT_FRAG = 0
     }
 
     @Inject
@@ -25,6 +27,7 @@ internal class MainActivity : DaggerAppCompatActivity() {
     private val viewModel by viewModels<MainViewModel> { viewModelFactory }
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +49,17 @@ internal class MainActivity : DaggerAppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
+    override fun onBackPressed() {
+        val host = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+        val currentFragment = host?.childFragmentManager?.fragments?.get(INDEX_CURRENT_FRAG)
+
+        (currentFragment as? BaseView)?.onBackPressed()
+    }
+
+    fun superOnBackPressed() {
+        super.onBackPressed()
+    }
+
     private fun requestPermissions() {
         if (PermissionsUtil.isPermissionGranted(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
             viewModel.setPermissions(true)
@@ -62,8 +76,7 @@ internal class MainActivity : DaggerAppCompatActivity() {
         val host: NavHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment? ?: return
 
-        val navController = host.navController
-
+        navController = host.navController
         binding.bottomNav.setupWithNavController(navController)
     }
 }
