@@ -1,6 +1,7 @@
 package com.tak8997.instastylegallery.ui
 
 import android.os.Bundle
+import android.view.MotionEvent
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
@@ -49,15 +50,14 @@ internal class MainActivity : DaggerAppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-    override fun onBackPressed() {
-        val host = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
-        val currentFragment = host?.childFragmentManager?.fragments?.get(INDEX_CURRENT_FRAG)
-
-        (currentFragment as? BaseView)?.onBackPressed()
-    }
-
-    fun superOnBackPressed() {
-        super.onBackPressed()
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        return when (event?.action) {
+            MotionEvent.ACTION_UP -> {
+                viewModel.closeGalleryDetail()
+                true
+            }
+            else -> super.onTouchEvent(event)
+        }
     }
 
     private fun requestPermissions() {

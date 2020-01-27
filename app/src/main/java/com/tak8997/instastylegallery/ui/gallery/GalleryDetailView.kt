@@ -26,8 +26,8 @@ internal class GalleryDetailView @JvmOverloads constructor(
         fun showScene(
             activity: Activity,
             container: ViewGroup,
-            itemView: View,
-            transitionName: String,
+            itemView: View?,
+            transitionName: String?,
             item: GalleryItem?
         ): Scene {
 
@@ -36,7 +36,10 @@ internal class GalleryDetailView @JvmOverloads constructor(
                 container,
                 false
             ) as? GalleryDetailView
-                ?: return Scene(container)
+
+            if (itemView == null || transitionName == null || galleryDetailView == null) {
+                return Scene(container)
+            }
 
             galleryDetailView.setGalleryDetail(galleryDetailView, item)
 

@@ -9,7 +9,9 @@
         android:id="@+id/item_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:clickable="true"
+        android:orientation="vertical"
+        android:focusable="true">
 
         <com.tak8997.instastylegallery.widget.GalleryImageView
             android:id="@+id/img_photo"
