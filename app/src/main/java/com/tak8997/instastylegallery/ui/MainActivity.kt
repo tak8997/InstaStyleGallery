@@ -56,6 +56,10 @@ internal class MainActivity : DaggerAppCompatActivity() {
                 viewModel.closeGalleryDetail()
                 true
             }
+            MotionEvent.ACTION_MOVE -> {
+
+                true
+            }
             else -> super.onTouchEvent(event)
         }
     }

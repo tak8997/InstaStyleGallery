@@ -12,7 +12,8 @@ import com.tak8997.instastylegallery.data.model.GalleryItem
 import com.tak8997.instastylegallery.databinding.ItemGalleryBinding
 
 internal class GalleryItemAdapter(
-    private val glide: GlideRequests
+    private val glide: GlideRequests,
+    private val itemCallback: (GalleryItem) -> Unit
 ) : PagedListAdapter<GalleryItem, GalleryItemAdapter.GalleryItemViewHolder>(diffUtil) {
 
     companion object {
@@ -37,32 +38,13 @@ internal class GalleryItemAdapter(
         )
 
         return GalleryItemViewHolder(binding, glide).apply {
-
-//
-//            itemView.setOnTouchListener { view, event ->
-//
-//                when (event.action) {
-//                    MotionEvent.ACTION_DOWN -> {
-//                        Log.d("MY_LOG", "down")
-//                    }
-//                    MotionEvent.ACTION_CANCEL,
-//                    MotionEvent.ACTION_UP -> {
-//                        Log.d("MY_LOG", "up")
-//                    }
-//                    MotionEvent.ACTION_MOVE -> {
-//                        Log.d("MY_LOG", "move")
-//                    }
-//                }
-//
-//                return@setOnTouchListener false
-//            }
-
-//            itemView.setOnLongClickListener {
-//                if (adapterPosition != RecyclerView.NO_POSITION) {
-//                    itemCallback.invoke(binding.itemRoot, TransitionUtils.getRecyclerViewTransitionName(adapterPosition), getItem(adapterPosition))
-//                }
-//                return@setOnLongClickListener true
-//            }
+            itemView.setOnClickListener {
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    getItem(adapterPosition)?.let { item ->
+                        itemCallback.invoke(item)
+                    }
+                }
+            }
         }
     }
 
